@@ -13,9 +13,10 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <div class="sheet">
+  <!-- 影はノートの形（くり抜いた穴を含む）に沿って落とす -->
+  <div class="notebook-shadow">
   <main class="notebook" id="notebook">
-    <!-- リングノートの穴とリング（数は画面幅からJSで決める） -->
-    <div class="binding" id="binding" aria-hidden="true"></div>
 
     <!-- 一覧ページ -->
     <section class="view view--list" id="view-list">
@@ -44,6 +45,11 @@
     <!-- 詳細ページ -->
     <section class="view view--detail" id="view-detail" hidden></section>
   </main>
+  </div>
+
+  <!-- リング（数は画面幅からJSで決める）。影を付けないよう、ノートとは別の層に置く -->
+  <div class="binding" id="binding" aria-hidden="true"></div>
+  </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 

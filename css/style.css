@@ -17,7 +17,6 @@
   --chip-border: #aeaeae;
 
   /* 影（#24183A をもとに、透明度はFigmaの値） */
-  --shadow-notebook: 0 4px 13px 2px rgba(36, 24, 58, 0.25);
   --shadow-raised: 3px 3px 2px 0 rgba(36, 24, 58, 0.2);
   --shadow-button: 3px 3px 1px 0 rgba(36, 24, 58, 0.2);
   --shadow-pressed: 1px 1px 1px 0 rgba(36, 24, 58, 0.2);
@@ -72,25 +71,43 @@ ul {
 }
 
 /* ---------- ノート ---------- */
-.notebook {
+.sheet {
   position: relative;
-  width: auto;
   max-width: 1200px;
   margin: 74px 16px 56px;
-  padding: 0 16px;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: var(--shadow-notebook);
 }
 
 @media (min-width: 1232px) {
-  .notebook {
+  .sheet {
     margin-left: auto;
     margin-right: auto;
   }
 }
 
-/* ---------- 穴とリング ---------- */
+/* ノートの形に沿った影。くり抜いた穴の中にも影が落ちる */
+.notebook-shadow {
+  filter: drop-shadow(0 4px 13px rgba(36, 24, 58, 0.25));
+}
+
+.notebook {
+  position: relative;
+  padding: 0 16px;
+  background: #fff;
+  border-radius: 16px;
+
+  /* 穴のくり抜き：上の64pxは穴のあいた形（JSで作る）、その下は全部見せる */
+  --holes-mask: linear-gradient(#000, #000); /* JSが動くまでは穴なし */
+  -webkit-mask-image: var(--holes-mask), linear-gradient(#000, #000);
+  mask-image: var(--holes-mask), linear-gradient(#000, #000);
+  -webkit-mask-position: 0 0, 0 64px;
+  mask-position: 0 0, 0 64px;
+  -webkit-mask-size: 100% 64px, 100% calc(100% - 64px);
+  mask-size: 100% 64px, 100% calc(100% - 64px);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+/* ---------- リング ---------- */
 .binding {
   position: absolute;
   top: 0;
@@ -98,15 +115,6 @@ ul {
   right: 0;
   height: 0;
   pointer-events: none;
-}
-
-.binding__hole {
-  position: absolute;
-  top: 18px;
-  width: var(--hole-size);
-  height: var(--hole-size);
-  border-radius: 50%;
-  background: var(--primary-100);
 }
 
 .binding__ring {
