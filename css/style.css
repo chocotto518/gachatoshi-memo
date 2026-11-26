@@ -76,7 +76,7 @@ ul {
   position: relative;
   width: auto;
   max-width: 1200px;
-  margin: 104px 16px 56px;
+  margin: 74px 16px 56px;
   padding: 0 16px;
   background: #fff;
   border-radius: 16px;
@@ -119,10 +119,10 @@ ul {
 }
 
 /* ---------- タイトル・注意書き ---------- */
-/* 制作中の表示：穴とタイトルの間の空き（47〜82px）に置き、タイトルの位置は動かさない */
+/* 制作中の表示：穴とタイトルの間の空き（47〜78px）に置き、タイトルの位置は動かさない */
 .wip-label {
   position: absolute;
-  top: 54px;
+  top: 52px;
   left: 16px;
   margin: 0;
   padding: 3px 8px;
@@ -137,18 +137,18 @@ ul {
 
 .site-title {
   margin: 0;
-  padding-top: 82px;
+  padding-top: 78px;
   line-height: 0;
 }
 
 .site-title img {
-  width: 374px;
+  width: 297px;
   height: auto;
+  margin: 0 auto; /* 中央寄せ */
 }
 
 .notice {
-  /* Figmaの文字枠は377pxで、内側の幅376pxを1pxはみ出している。それに合わせて右に少し余裕をもたせる */
-  margin: 21px -2px 0 0;
+  margin: 32px 0 0;
   font-size: 13px;
   font-weight: 500;
   line-height: normal;
@@ -162,7 +162,7 @@ ul {
   justify-content: center;
   align-items: center;
   gap: 16px;
-  margin: 46px auto 0;
+  margin: 32px auto 0;
   max-width: 284px; /* Figmaの並び（3つ＋2つ）に合わせる。PCでの調整はあとで */
 }
 
@@ -199,7 +199,7 @@ ul {
 
 /* ---------- 件数 ---------- */
 .count {
-  margin: 20px 0 0;
+  margin: 32px 0 0;
   text-align: right;
   font-size: 13px;
   font-weight: 500;
@@ -244,14 +244,14 @@ ul {
   transition: transform 0.08s ease, box-shadow 0.08s ease;
 }
 
-/* Card/Item/Ornament：意味のない装飾（あとでクリップ等に変える可能性あり） */
+/* Card/Item/Ornament：意味のない装飾。両端がギザギザのテープ（Figmaの Subtract） */
 .card__ornament {
   position: absolute;
-  top: 0;
+  top: -1px;
   left: calc(50% + 0.5px);
-  width: 97px;
-  height: 14px;
-  background: var(--primary-400);
+  width: 96px;
+  height: 16px;
+  background: url("../images/card-ornament.svg") center / 96px 16px no-repeat;
   transform: translateX(-50%);
   transition: transform 0.08s ease;
 }
@@ -312,7 +312,7 @@ ul {
   background: var(--primary-50);
   color: var(--text-primary);
   font-size: 12px;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 12px;
   white-space: nowrap;
   overflow: hidden;
@@ -344,7 +344,7 @@ ul {
   margin: 0;
   color: var(--text-primary);
   font-size: 12px;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 12px;
 }
 
@@ -354,7 +354,7 @@ ul {
 
 /* ---------- 詳細ページ（Figma: detail） ---------- */
 .view--detail {
-  padding-bottom: 42px;
+  padding-bottom: 41px;
 }
 
 /* もどる：見た目は20pxの高さ。押せる範囲は44pxにとる */
@@ -388,7 +388,7 @@ ul {
   width: 245px;
   max-width: 100%;
   aspect-ratio: 1 / 1;
-  margin: 10px auto 0; /* 画像の上端がノート上端から104px */
+  margin: 11px auto 0; /* 画像の上端がノート上端から105px */
   overflow: hidden;
 }
 
@@ -401,7 +401,7 @@ ul {
 /* 情報の表 */
 .info-table {
   width: 100%;
-  margin-top: 40px;
+  margin-top: 32px;
   border: 1px solid var(--primary-950);
   border-collapse: collapse;
   font-size: 14px;
@@ -482,7 +482,7 @@ ul {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  margin-top: 40px;
+  margin-top: 32px;
 }
 
 .btn {
@@ -492,7 +492,7 @@ ul {
   justify-content: center;
   gap: 8px;
   min-width: 182px;
-  padding: 12px;
+  padding: 16px 12px;
   border: 1px solid var(--primary-600);
   border-radius: 8px;
   font-size: 16px;
