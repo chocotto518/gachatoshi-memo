@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ガチャとしくん MEMO</title>
+  <meta name="description" content="牛島若利くんが入っているカプセルトイを、メーカーを越えて一覧で見られる非公式ファンサイトです。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main class="notebook" id="notebook">
+    <!-- リングノートの穴とリング（数は画面幅からJSで決める） -->
+    <div class="binding" id="binding" aria-hidden="true"></div>
+
+    <!-- 一覧ページ -->
+    <section class="view view--list" id="view-list">
+      <h1 class="site-title">
+        <!-- 仮のタイトル画像（Figmaから書き出し）。正式なSVGが届いたら差し替える -->
+        <img src="images/title.svg" width="374" height="35" alt="ガチャとしくん MEMO">
+      </h1>
+
+      <p class="notice">
+        当サイトは、個人が運営する牛島若利くんのファンサイトです。<br>
+        原作者様・出版社様・各メーカー様とは一切関係ありません。<br>
+        「ハイキュー!!」の著作権は以下に帰属します。<br>
+        ©古舘春一／集英社・「ハイキュー!!」製作委員会
+      </p>
+
+      <div class="chips" id="chips" role="group" aria-label="カテゴリで絞り込み"></div>
+
+      <p class="count" id="count" aria-live="polite"></p>
+
+      <ul class="card-list" id="card-list"></ul>
+    </section>
+
+    <!-- 詳細ページ -->
+    <section class="view view--detail" id="view-detail" hidden></section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
