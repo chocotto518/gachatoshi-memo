@@ -1,0 +1,561 @@
+/* =========================================================
+   ガチャとしくん MEMO
+   数値はFigma（main / 440px幅）を基準にしています
+   ========================================================= */
+
+:root {
+  /* Figmaの変数（ushiwaka/...） */
+  --primary-50: #faf5ff;
+  --primary-100: #f2e7ff;
+  --primary-400: #d7b2ff;
+  --primary-600: #932eef;
+  --primary-800: #7e1ed2; /* = primary/700 */
+  --primary-950: #3b0566;
+  --text-primary: #24183a;
+
+  /* Figmaで直接使われている色 */
+  --chip-border: #aeaeae;
+
+  /* 影（#24183A をもとに、透明度はFigmaの値） */
+  --shadow-notebook: 0 4px 13px 2px rgba(36, 24, 58, 0.25);
+  --shadow-raised: 3px 3px 2px 0 rgba(36, 24, 58, 0.2);
+  --shadow-button: 3px 3px 1px 0 rgba(36, 24, 58, 0.2);
+  --shadow-pressed: 1px 1px 1px 0 rgba(36, 24, 58, 0.2);
+
+  /* リングノート */
+  --hole-size: 29px;
+  --binding-pitch: 61px; /* 穴の間隔（中心から中心） */
+  --ring-width: 16px;
+  --ring-height: 53px;
+
+  --font: "Zen Kaku Gothic Antique", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--primary-100);
+  color: var(--text-primary);
+  font-family: var(--font);
+  font-weight: 400;
+  line-height: 1.5;
+  -webkit-tap-highlight-color: transparent;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* ---------- ノート ---------- */
+.notebook {
+  position: relative;
+  width: auto;
+  max-width: 1200px;
+  margin: 104px 16px 56px;
+  padding: 0 16px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: var(--shadow-notebook);
+}
+
+@media (min-width: 1232px) {
+  .notebook {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* ---------- 穴とリング ---------- */
+.binding {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.binding__hole {
+  position: absolute;
+  top: 18px;
+  width: var(--hole-size);
+  height: var(--hole-size);
+  border-radius: 50%;
+  background: var(--primary-100);
+}
+
+.binding__ring {
+  position: absolute;
+  top: -16px;
+  width: var(--ring-width);
+  height: var(--ring-height);
+  border-radius: calc(var(--ring-width) / 2);
+  background: var(--primary-400);
+}
+
+/* ---------- タイトル・注意書き ---------- */
+/* 制作中の表示：穴とタイトルの間の空き（47〜82px）に置き、タイトルの位置は動かさない */
+.wip-label {
+  position: absolute;
+  top: 54px;
+  left: 16px;
+  margin: 0;
+  padding: 3px 8px;
+  border: 1px solid var(--primary-600);
+  border-radius: 50px;
+  background: var(--primary-50);
+  color: var(--primary-800);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 12px;
+}
+
+.site-title {
+  margin: 0;
+  padding-top: 82px;
+  line-height: 0;
+}
+
+.site-title img {
+  width: 374px;
+  height: auto;
+}
+
+.notice {
+  /* Figmaの文字枠は377pxで、内側の幅376pxを1pxはみ出している。それに合わせて右に少し余裕をもたせる */
+  margin: 21px -2px 0 0;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: normal;
+  color: var(--text-primary);
+}
+
+/* ---------- 絞り込みチップ ---------- */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin: 46px auto 0;
+  max-width: 284px; /* Figmaの並び（3つ＋2つ）に合わせる。PCでの調整はあとで */
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 24px;
+  padding: 4px 8px;
+  border: 1px solid var(--chip-border);
+  border-radius: 50px;
+  background: #fff;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 14px;
+  white-space: nowrap;
+  cursor: pointer;
+  /* 影なし（ボタン・カードとの区別） */
+}
+
+.chip[aria-pressed="true"] {
+  /* Figmaどおり、選択中は枠が2pxになるぶん少し大きくなる（26px） */
+  border: 2px solid var(--primary-800);
+  background: var(--primary-400);
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.chip:focus-visible {
+  outline: 2px solid var(--primary-800);
+  outline-offset: 2px;
+}
+
+/* ---------- 件数 ---------- */
+.count {
+  margin: 20px 0 0;
+  text-align: right;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 13px;
+  color: var(--text-primary);
+}
+
+/* ---------- 商品カード（Card/Item） ---------- */
+.view--list {
+  padding-bottom: 48px;
+}
+
+.card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin-top: 8px;
+}
+
+.card {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 7px 0 0; /* 上の7pxはつまみがはみ出す分 */
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.card__body {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 122px;
+  padding: 12px;
+  border: 1px solid var(--primary-600);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-raised);
+  overflow: hidden;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+
+/* Card/Item/Ornament：意味のない装飾（あとでクリップ等に変える可能性あり） */
+.card__ornament {
+  position: absolute;
+  top: 0;
+  left: calc(50% + 0.5px);
+  width: 97px;
+  height: 14px;
+  background: var(--primary-400);
+  transform: translateX(-50%);
+  transition: transform 0.08s ease;
+}
+
+.card:active .card__body {
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-pressed);
+}
+
+.card:active .card__ornament {
+  transform: translate(calc(-50% + 2px), 2px);
+}
+
+.card:focus-visible {
+  outline: none;
+}
+
+.card:focus-visible .card__body {
+  outline: 2px solid var(--primary-800);
+  outline-offset: 2px;
+}
+
+/* Card/Item/Thumb */
+.thumb {
+  flex: 0 0 auto;
+  width: 96px;
+  height: 96px;
+  overflow: hidden;
+}
+
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 画像がないとき：グレーの市松模様（Figmaの画像） */
+.thumb--empty,
+.detail-image--empty {
+  background: #fff url("../images/placeholder.png") center / cover no-repeat;
+}
+
+.card__info {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Badge/Maker */
+.badge-maker {
+  max-width: 100%;
+  padding: 4px 8px;
+  border-radius: 50px;
+  background: var(--primary-50);
+  color: var(--text-primary);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Card/Item/Title：最大2行。入らなければJSで文字を小さくする（下限12px） */
+.card__title {
+  width: 100%;
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.45;
+  word-break: auto-phrase; /* 対応ブラウザでは文節で改行 */
+  overflow-wrap: anywhere;
+}
+
+.card__title.is-clamped {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+/* Card/Item/Meta */
+.card__meta {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 12px;
+}
+
+.card__meta-sep {
+  margin: 0 0.6em;
+}
+
+/* ---------- 詳細ページ（Figma: detail） ---------- */
+.view--detail {
+  padding-bottom: 42px;
+}
+
+/* もどる：見た目は20pxの高さ。押せる範囲は44pxにとる */
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  margin: 50px 0 0 -8px; /* アイコンの上端がノート上端から62pxの位置 */
+  padding: 0 8px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 16px;
+  cursor: pointer;
+}
+
+.back img {
+  width: 20px;
+  height: 20px;
+}
+
+.back:focus-visible {
+  outline: 2px solid var(--primary-800);
+}
+
+.detail-image {
+  width: 245px;
+  max-width: 100%;
+  aspect-ratio: 1 / 1;
+  margin: 10px auto 0; /* 画像の上端がノート上端から104px */
+  overflow: hidden;
+}
+
+.detail-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 情報の表 */
+.info-table {
+  width: 100%;
+  margin-top: 40px;
+  border: 1px solid var(--primary-950);
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 14px;
+}
+
+.info-table th,
+.info-table td {
+  padding: 8px;
+  border: 1px solid var(--primary-950);
+  vertical-align: middle;
+}
+
+.info-table th {
+  width: 101px;
+  background: var(--primary-100);
+  color: var(--primary-950);
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.info-table td {
+  color: var(--text-primary);
+  text-align: left;
+  word-break: auto-phrase;
+  overflow-wrap: anywhere;
+}
+
+/* タップでコピーできる行（商品名・JANコード） */
+.copy-row td {
+  cursor: pointer;
+}
+
+.copy-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.copy-cell__text {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.copy-cell__icon {
+  flex: 0 0 auto;
+  display: block;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  cursor: pointer;
+}
+
+.copy-cell__icon img {
+  width: 20px;
+  height: 20px;
+}
+
+.copy-row:active td {
+  background: var(--primary-50);
+}
+
+.copy-cell__icon:focus-visible {
+  outline: 2px solid var(--primary-800);
+  outline-offset: 2px;
+}
+
+.empty-value {
+  color: #8a8296;
+}
+
+/* ボタン */
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.btn {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 182px;
+  padding: 12px;
+  border: 1px solid var(--primary-600);
+  border-radius: 8px;
+  font-size: 16px;
+  line-height: 16px;
+  text-decoration: none;
+  box-shadow: var(--shadow-button);
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+
+.btn img {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+}
+
+.btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-pressed);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--primary-800);
+  outline-offset: 2px;
+}
+
+.btn--primary {
+  background: var(--primary-800);
+  color: #fff;
+  font-weight: 700;
+}
+
+.btn--secondary {
+  background: var(--primary-50);
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* ---------- コピーしました ---------- */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 32px;
+  padding: 10px 18px;
+  border-radius: 50px;
+  background: var(--text-primary);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 8px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.toast.is-shown {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+  }
+}
