@@ -135,8 +135,9 @@
       `<path fill-rule="evenodd" d="M0 0H${width}V${MASK_HEIGHT}H0Z${circles}"/></svg>`;
     els.notebook.style.setProperty("--holes-mask", `url("data:image/svg+xml,${encodeURIComponent(svg)}")`);
 
-    // リング：穴の中心にそろえる
+    // 穴のふちの影と、リング（穴の中心にそろえる）。リングを後に置いて上に重ねる
     els.binding.replaceChildren(
+      ...centers.map((center) => h("span", { class: "binding__hole-edge", style: `left:${center - hole / 2}px` })),
       ...centers.map((center) => h("span", { class: "binding__ring", style: `left:${center - ring / 2}px` }))
     );
   }

@@ -117,6 +117,16 @@ ul {
   pointer-events: none;
 }
 
+/* 穴の上側のふちに付ける内側の影（くり抜いた深さを出す） */
+.binding__hole-edge {
+  position: absolute;
+  top: 18px;
+  width: var(--hole-size);
+  height: var(--hole-size);
+  border-radius: 50%;
+  box-shadow: inset 0 3px 3px rgba(36, 24, 58, 0.3);
+}
+
 .binding__ring {
   position: absolute;
   top: -16px;
