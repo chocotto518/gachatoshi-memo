@@ -108,6 +108,10 @@
 
   /* ---------- リングノートの穴とリング ---------- */
 
+  // 穴の上端（ノートの上端から）と、穴をくり抜く帯の高さ（CSSの 64px と合わせる）
+  const HOLE_TOP = 18;
+  const MASK_HEIGHT = 64;
+
   let lastBindingWidth = 0;
   function layoutBinding() {
     const width = els.notebook.clientWidth;
@@ -118,16 +122,24 @@
     const count = Math.max(1, Math.floor((width - minSide * 2 - hole) / pitch) + 1);
     const span = (count - 1) * pitch + hole;
     const start = (width - span) / 2; // 左右の余白を均等に
+    const centers = Array.from({ length: count }, (_, i) => start + hole / 2 + i * pitch);
 
-    const frag = document.createDocumentFragment();
-    for (let i = 0; i < count; i++) {
-      const center = start + hole / 2 + i * pitch;
-      frag.append(
-        h("span", { class: "binding__hole", style: `left:${center - hole / 2}px` }),
-        h("span", { class: "binding__ring", style: `left:${center - ring / 2}px` })
-      );
-    }
-    els.binding.replaceChildren(frag);
+    // 穴：帯の形（長方形から円をくり抜いたもの）をSVGで作り、ノートのマスクにする
+    const r = hole / 2;
+    const cy = HOLE_TOP + r;
+    const circles = centers
+      .map((cx) => `M${cx - r} ${cy}a${r} ${r} 0 1 0 ${hole} 0a${r} ${r} 0 1 0 ${-hole} 0Z`)
+      .join("");
+    const svg =
+      `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${MASK_HEIGHT}">` +
+      `<path fill-rule="evenodd" d="M0 0H${width}V${MASK_HEIGHT}H0Z${circles}"/></svg>`;
+    els.notebook.style.setProperty("--holes-mask", `url("data:image/svg+xml,${encodeURIComponent(svg)}")`);
+
+    // 穴のふちの影と、リング（穴の中心にそろえる）。リングを後に置いて上に重ねる
+    els.binding.replaceChildren(
+      ...centers.map((center) => h("span", { class: "binding__hole-edge", style: `left:${center - hole / 2}px` })),
+      ...centers.map((center) => h("span", { class: "binding__ring", style: `left:${center - ring / 2}px` }))
+    );
   }
 
   /* ---------- 一覧 ---------- */
