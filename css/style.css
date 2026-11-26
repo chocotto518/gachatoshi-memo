@@ -95,7 +95,7 @@ ul {
   border-radius: 16px;
 
   /* FigJamのような点の方眼（点の色 #EDEDED・直径2px） */
-  --dot-gap: 16px;
+  --dot-gap: 24px;
   background-color: #fff;
   background-image: radial-gradient(circle, #ededed 1px, transparent 1.5px);
   background-size: var(--dot-gap) var(--dot-gap);
