@@ -1,5 +1,7 @@
 # gachatoshi-memo
-牛島若利くんのカプセルトイまとめ（非公式ファンサイト）
+**ガチャとし MEMO**：牛島若利くんのカプセルトイまとめ（非公式ファンサイト）
+
+テスト公開中：https://chocotto518.github.io/gachatoshi-memo/
 
 ## 中身
 - `index.html` / `css/style.css` / `js/app.js` … サイト本体（ビルド不要）

@@ -123,8 +123,10 @@ ul {
 .wip-label {
   position: absolute;
   top: 52px;
-  left: 16px;
+  left: 50%; /* タイトルに合わせて中央寄せ */
+  transform: translateX(-50%);
   margin: 0;
+  white-space: nowrap;
   padding: 3px 8px;
   border: 1px solid var(--primary-600);
   border-radius: 50px;
