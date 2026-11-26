@@ -13,15 +13,14 @@
   --text-primary: #24183a;
 
   /* Figmaで直接使われている色 */
-  --text-black: #000;
   --chip-border: #aeaeae;
   --placeholder-a: #e4e4e4;
   --placeholder-b: #f4f4f4;
 
-  /* 影 */
-  --shadow-notebook: 0 4px 13px 2px rgba(0, 0, 0, 0.25);
-  --shadow-raised: 3px 3px 2px 0 rgba(0, 0, 0, 0.2);
-  --shadow-pressed: 1px 1px 1px 0 rgba(0, 0, 0, 0.2);
+  /* 影（#24183A をもとに、透明度はFigmaの値） */
+  --shadow-notebook: 0 4px 13px 2px rgba(36, 24, 58, 0.25);
+  --shadow-raised: 3px 3px 2px 0 rgba(36, 24, 58, 0.2);
+  --shadow-pressed: 1px 1px 1px 0 rgba(36, 24, 58, 0.2);
 
   /* リングノート */
   --hole-size: 29px;
@@ -160,7 +159,7 @@ ul {
   border: 1px solid var(--chip-border);
   border-radius: 50px;
   background: #fff;
-  color: var(--text-black);
+  color: var(--text-primary);
   font-size: 14px;
   font-weight: 400;
   line-height: 14px;
@@ -298,7 +297,7 @@ ul {
   padding: 4px 8px;
   border-radius: 50px;
   background: var(--primary-50);
-  color: var(--text-black);
+  color: var(--text-primary);
   font-size: 12px;
   font-weight: 400;
   line-height: 12px;
@@ -311,7 +310,7 @@ ul {
 .card__title {
   width: 100%;
   margin: 0;
-  color: var(--text-black);
+  color: var(--text-primary);
   font-size: 14px;
   font-weight: 700;
   line-height: 1.45;
@@ -330,7 +329,7 @@ ul {
 /* Card/Item/Meta */
 .card__meta {
   margin: 0;
-  color: var(--text-black);
+  color: var(--text-primary);
   font-size: 12px;
   font-weight: 400;
   line-height: 12px;
