@@ -119,6 +119,22 @@ ul {
 }
 
 /* ---------- タイトル・注意書き ---------- */
+/* 制作中の表示：穴とタイトルの間の空き（47〜82px）に置き、タイトルの位置は動かさない */
+.wip-label {
+  position: absolute;
+  top: 54px;
+  left: 16px;
+  margin: 0;
+  padding: 3px 8px;
+  border: 1px solid var(--primary-600);
+  border-radius: 50px;
+  background: var(--primary-50);
+  color: var(--primary-800);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 12px;
+}
+
 .site-title {
   margin: 0;
   padding-top: 82px;
