@@ -338,7 +338,7 @@ ul {
 
 /* ---------- 詳細ページ（Figma: detail） ---------- */
 .view--detail {
-  padding-bottom: 34px;
+  padding-bottom: 42px;
 }
 
 /* もどる：見た目は20pxの高さ。押せる範囲は44pxにとる */
@@ -372,7 +372,7 @@ ul {
   width: 245px;
   max-width: 100%;
   aspect-ratio: 1 / 1;
-  margin: 18px auto 0; /* 画像の上端がノート上端から112px */
+  margin: 10px auto 0; /* 画像の上端がノート上端から104px */
   overflow: hidden;
 }
 
@@ -465,13 +465,13 @@ ul {
 .actions {
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 24px;
   margin-top: 40px;
 }
 
 .btn {
-  display: inline-flex;
+  display: flex;
+  width: 100%;
   align-items: center;
   justify-content: center;
   gap: 8px;

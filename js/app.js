@@ -321,7 +321,7 @@
           plainRow("メーカー", item.maker),
           plainRow("カテゴリ", item.category),
           plainRow("発売日", item.releaseLabel),
-          plainRow("価格", formatPrice(item.price)),
+          plainRow("価格", `${formatPrice(item.price)}（税込）`),
           jan,
           plainRow("ラインナップ", `全${lineup.length}種：${lineup.join("／")}`)
         )
