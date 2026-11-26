@@ -54,7 +54,6 @@
       if (value == null || value === false) continue;
       if (key === "class") el.className = value;
       else if (key === "text") el.textContent = value;
-      else if (key === "html") el.innerHTML = value; // 固定のアイコンSVGにだけ使う
       else if (key.startsWith("on")) el.addEventListener(key.slice(2), value);
       else el.setAttribute(key, value === true ? "" : value);
     }
@@ -73,12 +72,15 @@
     return y * 10000 + m * 100 + p;
   }
 
-  const ICONS = {
-    back: '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3 5 8l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-    copy: '<svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M13 4.5V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
-    check: '<svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m4 10.5 4 4 8-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-    external: '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M9 2.5h4.5V7M13.5 2.5 7.5 8.5M12 9.5V13a.5.5 0 0 1-.5.5h-8A.5.5 0 0 1 3 13V5a.5.5 0 0 1 .5-.5H7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  // アイコン（Figmaから書き出したもの。check.svg だけ自作）
+  const ICON = {
+    back: "images/icons/back.svg",
+    copy: "images/icons/copy.svg",
+    check: "images/icons/check.svg",
+    external: "images/icons/external.svg",
+    externalWhite: "images/icons/external-white.svg",
   };
+  const icon = (src) => h("img", { src, alt: "", width: 20, height: 20 });
 
   /* ---------- データ ---------- */
 
@@ -245,12 +247,13 @@
   /* ---------- 詳細 ---------- */
 
   function copyRow(label, value) {
-    const icon = h("button", { type: "button", class: "copy-cell__icon", "aria-label": `${label}をコピー`, html: ICONS.copy });
+    const iconImg = icon(ICON.copy);
+    const iconBtn = h("button", { type: "button", class: "copy-cell__icon", "aria-label": `${label}をコピー` }, iconImg);
     const row = h(
       "tr",
       { class: "copy-row" },
       h("th", { scope: "row", text: label }),
-      h("td", {}, h("div", { class: "copy-cell" }, h("span", { class: "copy-cell__text", text: value }), icon))
+      h("td", {}, h("div", { class: "copy-cell" }, h("span", { class: "copy-cell__text", text: value }), iconBtn))
     );
 
     row.addEventListener("click", async () => {
@@ -261,9 +264,9 @@
       const ok = await copyText(value);
       showToast(ok ? "コピーしました" : "コピーできませんでした");
       if (ok) {
-        icon.innerHTML = ICONS.check;
-        clearTimeout(icon._t);
-        icon._t = setTimeout(() => (icon.innerHTML = ICONS.copy), 1200);
+        iconImg.src = ICON.check;
+        clearTimeout(iconBtn._t);
+        iconBtn._t = setTimeout(() => (iconImg.src = ICON.copy), 1200);
       }
     });
     return row;
@@ -274,7 +277,7 @@
   }
 
   function renderDetail(item) {
-    const back = h("button", { type: "button", class: "back", onclick: goBack, html: `${ICONS.back}<span>もどる</span>` });
+    const back = h("button", { type: "button", class: "back", onclick: goBack }, icon(ICON.back), h("span", { text: "もどる" }));
 
     if (!item) {
       els.detailView.replaceChildren(back, h("p", { text: "商品が見つかりませんでした。" }));
@@ -292,16 +295,17 @@
       { class: "actions" },
       h(
         "a",
-        { class: "btn btn--primary", href: mercariUrl(item), target: "_blank", rel: "noopener noreferrer", html: `<span>メルカリで探す</span>${ICONS.external}` }
+        { class: "btn btn--primary", href: mercariUrl(item), target: "_blank", rel: "noopener noreferrer" },
+        h("span", { text: "メルカリで探す" }),
+        icon(ICON.externalWhite)
       ),
       item.officialUrl &&
-        h("a", {
-          class: "btn btn--secondary",
-          href: item.officialUrl,
-          target: "_blank",
-          rel: "noopener noreferrer",
-          html: `<span>公式サイトを見る</span>${ICONS.external}`,
-        })
+        h(
+          "a",
+          { class: "btn btn--secondary", href: item.officialUrl, target: "_blank", rel: "noopener noreferrer" },
+          h("span", { text: "公式サイトを見る" }),
+          icon(ICON.external)
+        )
     );
 
     els.detailView.replaceChildren(
@@ -317,7 +321,7 @@
           plainRow("メーカー", item.maker),
           plainRow("カテゴリ", item.category),
           plainRow("発売日", item.releaseLabel),
-          plainRow("価格", `${formatPrice(item.price)}（税込）`),
+          plainRow("価格", formatPrice(item.price)),
           jan,
           plainRow("ラインナップ", `全${lineup.length}種：${lineup.join("／")}`)
         )

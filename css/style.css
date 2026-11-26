@@ -9,17 +9,17 @@
   --primary-100: #f2e7ff;
   --primary-400: #d7b2ff;
   --primary-600: #932eef;
-  --primary-800: #7e1ed2;
+  --primary-800: #7e1ed2; /* = primary/700 */
+  --primary-950: #3b0566;
   --text-primary: #24183a;
 
   /* Figmaで直接使われている色 */
   --chip-border: #aeaeae;
-  --placeholder-a: #e4e4e4;
-  --placeholder-b: #f4f4f4;
 
   /* 影（#24183A をもとに、透明度はFigmaの値） */
   --shadow-notebook: 0 4px 13px 2px rgba(36, 24, 58, 0.25);
   --shadow-raised: 3px 3px 2px 0 rgba(36, 24, 58, 0.2);
+  --shadow-button: 3px 3px 1px 0 rgba(36, 24, 58, 0.2);
   --shadow-pressed: 1px 1px 1px 0 rgba(36, 24, 58, 0.2);
 
   /* リングノート */
@@ -77,7 +77,7 @@ ul {
   width: auto;
   max-width: 1200px;
   margin: 104px 16px 56px;
-  padding: 0 16px 48px;
+  padding: 0 16px;
   background: #fff;
   border-radius: 16px;
   box-shadow: var(--shadow-notebook);
@@ -192,6 +192,10 @@ ul {
 }
 
 /* ---------- 商品カード（Card/Item） ---------- */
+.view--list {
+  padding-bottom: 48px;
+}
+
 .card-list {
   display: flex;
   flex-direction: column;
@@ -268,17 +272,10 @@ ul {
   object-fit: cover;
 }
 
-/* 画像がないとき：グレーの市松模様 */
+/* 画像がないとき：グレーの市松模様（Figmaの画像） */
 .thumb--empty,
 .detail-image--empty {
-  background-color: var(--placeholder-b);
-  background-image: conic-gradient(
-    var(--placeholder-a) 0 25%,
-    var(--placeholder-b) 0 50%,
-    var(--placeholder-a) 0 75%,
-    var(--placeholder-b) 0
-  );
-  background-size: 16px 16px;
+  background: #fff url("../images/placeholder.png") center / cover no-repeat;
 }
 
 .card__info {
@@ -339,42 +336,44 @@ ul {
   margin: 0 0.6em;
 }
 
-/* ---------- 詳細ページ ---------- */
+/* ---------- 詳細ページ（Figma: detail） ---------- */
 .view--detail {
-  padding-top: 64px;
+  padding-bottom: 34px;
 }
 
+/* もどる：見た目は20pxの高さ。押せる範囲は44pxにとる */
 .back {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
   min-height: 44px;
-  margin-left: -8px;
+  margin: 50px 0 0 -8px; /* アイコンの上端がノート上端から62pxの位置 */
   padding: 0 8px;
   border: 0;
+  border-radius: 8px;
   background: none;
-  color: var(--primary-800);
-  font-size: 14px;
+  color: var(--text-primary);
+  font-size: 16px;
   font-weight: 500;
+  line-height: 16px;
   cursor: pointer;
 }
 
-.back svg {
-  width: 16px;
-  height: 16px;
+.back img {
+  width: 20px;
+  height: 20px;
 }
 
 .back:focus-visible {
   outline: 2px solid var(--primary-800);
-  border-radius: 4px;
 }
 
 .detail-image {
-  width: min(100%, 280px);
+  width: 245px;
+  max-width: 100%;
   aspect-ratio: 1 / 1;
-  margin: 8px auto 0;
+  margin: 18px auto 0; /* 画像の上端がノート上端から112px */
   overflow: hidden;
-  border-radius: 8px;
 }
 
 .detail-image img {
@@ -383,37 +382,40 @@ ul {
   object-fit: cover;
 }
 
+/* 情報の表 */
 .info-table {
   width: 100%;
-  margin-top: 24px;
+  margin-top: 40px;
+  border: 1px solid var(--primary-950);
   border-collapse: collapse;
   font-size: 14px;
-  line-height: 1.5;
+  line-height: 14px;
 }
 
 .info-table th,
 .info-table td {
-  border: 1px solid var(--primary-800);
-  padding: 8px 10px;
+  padding: 8px;
+  border: 1px solid var(--primary-950);
   vertical-align: middle;
-  text-align: left;
 }
 
 .info-table th {
-  width: 6.5em;
+  width: 101px;
   background: var(--primary-100);
-  color: var(--primary-800);
-  font-weight: 500;
+  color: var(--primary-950);
+  font-weight: 400;
+  text-align: center;
   white-space: nowrap;
 }
 
 .info-table td {
   color: var(--text-primary);
+  text-align: left;
   word-break: auto-phrase;
   overflow-wrap: anywhere;
 }
 
-/* タップでコピーできる行 */
+/* タップでコピーできる行（商品名・JANコード） */
 .copy-row td {
   cursor: pointer;
 }
@@ -425,29 +427,25 @@ ul {
 }
 
 .copy-cell__text {
-  flex: 1 1 auto;
+  flex: 1 1 0;
   min-width: 0;
 }
 
 .copy-cell__icon {
   flex: 0 0 auto;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  margin: -4px -4px -4px 0;
+  display: block;
+  width: 20px;
+  height: 20px;
   padding: 0;
   border: 0;
-  border-radius: 6px;
+  border-radius: 4px;
   background: none;
-  color: var(--primary-800);
   cursor: pointer;
 }
 
-.copy-cell__icon svg {
-  width: 18px;
-  height: 18px;
+.copy-cell__icon img {
+  width: 20px;
+  height: 20px;
 }
 
 .copy-row:active td {
@@ -456,6 +454,7 @@ ul {
 
 .copy-cell__icon:focus-visible {
   outline: 2px solid var(--primary-800);
+  outline-offset: 2px;
 }
 
 .empty-value {
@@ -466,28 +465,30 @@ ul {
 .actions {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-top: 32px;
+  align-items: center;
+  gap: 24px;
+  margin-top: 40px;
 }
 
 .btn {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  min-height: 48px;
-  padding: 12px 16px;
+  gap: 8px;
+  min-width: 182px;
+  padding: 12px;
+  border: 1px solid var(--primary-600);
   border-radius: 8px;
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 16px;
+  line-height: 16px;
   text-decoration: none;
-  box-shadow: var(--shadow-raised);
+  box-shadow: var(--shadow-button);
   transition: transform 0.08s ease, box-shadow 0.08s ease;
 }
 
-.btn svg {
-  width: 16px;
-  height: 16px;
+.btn img {
+  width: 20px;
+  height: 20px;
   flex: 0 0 auto;
 }
 
@@ -502,15 +503,15 @@ ul {
 }
 
 .btn--primary {
-  border: 1px solid var(--primary-800);
   background: var(--primary-800);
   color: #fff;
+  font-weight: 700;
 }
 
 .btn--secondary {
-  border: 1px solid var(--primary-600);
-  background: var(--primary-100);
+  background: var(--primary-50);
   color: var(--text-primary);
+  font-weight: 500;
 }
 
 /* ---------- コピーしました ---------- */
