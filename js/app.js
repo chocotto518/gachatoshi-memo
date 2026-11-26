@@ -1,5 +1,5 @@
 /* =========================================================
-   ガチャとしくん MEMO
+   ガチャとし MEMO
    - 商品データは data/products.json の1か所だけで管理する
    - 一覧（#/）と詳細（#/item/<id>）を1ページで切り替える
    ========================================================= */
@@ -381,12 +381,12 @@
       renderDetail(item);
       els.listView.hidden = true;
       els.detailView.hidden = false;
-      document.title = item ? `${item.name}｜ガチャとしくん MEMO` : "ガチャとしくん MEMO";
+      document.title = item ? `${item.name}｜ガチャとし MEMO` : "ガチャとし MEMO";
       window.scrollTo(0, 0);
     } else {
       els.detailView.hidden = true;
       els.listView.hidden = false;
-      document.title = "ガチャとしくん MEMO";
+      document.title = "ガチャとし MEMO";
       fitTitles();
       // 絞り込みはそのまま。スクロール位置を戻す
       window.scrollTo(0, state.listScrollY);
