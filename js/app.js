@@ -9,7 +9,7 @@
   const DATA_URL = "data/products.json";
 
   // チップの並び順。データにない項目は出さず、ここにない項目は後ろに足す
-  const CATEGORY_ORDER = ["キーホルダー", "マスコット", "フィギュア", "缶バッジ"];
+  const CATEGORY_ORDER = ["キーホルダー", "マスコット", "フィギュア", "缶バッジ", "ぬいぐるみ", "その他"];
 
   // 商品名の文字サイズ（px）：基本・下限・小さくする幅
   const TITLE_SIZE = { base: 14, min: 12, step: 0.5, lineHeight: 1.45, maxLines: 2 };
@@ -101,9 +101,9 @@
 
   function buildCategories(items) {
     const inData = new Set(items.map((i) => i.category).filter(Boolean));
-    const ordered = CATEGORY_ORDER.filter((c) => inData.has(c));
+    const known = CATEGORY_ORDER.filter((c) => c !== "その他" && inData.has(c));
     const extra = [...inData].filter((c) => !CATEGORY_ORDER.includes(c));
-    return [...ordered, ...extra];
+    return [...known, ...extra, ...(inData.has("その他") ? ["その他"] : [])];
   }
 
   /* ---------- リングノートの穴とリング ---------- */
