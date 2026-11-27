@@ -75,7 +75,8 @@ ul {
 .sheet {
   position: relative;
   max-width: 1200px;
-  margin: 74px 16px 56px;
+  /* 上の余白：40px。ホーム画面から全画面で開いたときは、時計などのエリア（セーフエリア）の高さを足す */
+  margin: calc(40px + env(safe-area-inset-top, 0px)) 16px 56px;
 }
 
 @media (min-width: 1232px) {
