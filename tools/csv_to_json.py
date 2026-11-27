@@ -9,6 +9,7 @@
 - メモが「【入力例】」で始まる行は読み飛ばす
 - 見た目だけの違い（改行・余分な空白・発売時期の 07月 / 10月 下旬 など）は自動でそろえる
 - 内容に関わりそうなこと（JANの重複など）は直さずに「確認してほしいこと」として表示する
+- images/products/ に「id と同じ名前」の写真があれば、その商品の画像にする
 """
 import csv
 import json
@@ -17,6 +18,10 @@ import sys
 from pathlib import Path
 
 OUT = Path(__file__).resolve().parent.parent / "data" / "products.json"
+# 商品写真の置き場所。「id と同じ名前」の画像があれば自動で使う（例：images/products/bandai-4582770095487.webp）
+ROOT = Path(__file__).resolve().parent.parent
+IMAGE_DIR = ROOT / "images" / "products"
+IMAGE_EXTS = (".webp", ".jpg", ".jpeg", ".png")
 
 # メーカー名 → id に使う英字（新しいメーカーが増えたらここに足す）
 MAKER_KEYS = {
@@ -131,6 +136,10 @@ def main(csv_path):
             new_id = f"{base}-{i}"
         seen_ids[new_id] = where
         item["id"] = new_id
+        for ext in IMAGE_EXTS:
+            if (IMAGE_DIR / f"{new_id}{ext}").exists():
+                item["image"] = f"images/products/{new_id}{ext}"
+                break
         items.append(item)
 
     OUT.write_text(json.dumps(items, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
