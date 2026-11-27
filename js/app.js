@@ -9,7 +9,7 @@
   const DATA_URL = "data/products.json";
 
   // チップの並び順。データにない項目は出さず、ここにない項目は後ろに足す
-  const CATEGORY_ORDER = ["キーホルダー", "マスコット", "フィギュア", "缶バッジ", "ぬいぐるみ", "その他"];
+  const CATEGORY_ORDER = ["キーホルダー", "フィギュア", "缶バッジ", "ぬいぐるみ", "その他"];
 
   // 商品名の文字サイズ（px）：基本・下限・小さくする幅
   const TITLE_SIZE = { base: 14, min: 12, step: 0.5, lineHeight: 1.45, maxLines: 2 };
