@@ -605,12 +605,7 @@ ul {
   font-size: 13px;
   font-weight: 500;
   line-height: 17px;
-}
-
-/* 「〜ものを」と「見つけたら〜」を、それぞれまとまりのまま折り返す（狭い画面でも途中で切れにくい） */
-.site-footer__text span {
-  display: inline-block;
-  word-break: auto-phrase;
+  word-break: auto-phrase; /* 改行は入れず、画面幅に合わせて自然に折り返す（対応ブラウザでは言葉の切れ目で） */
 }
 
 .site-footer__note {
