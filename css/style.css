@@ -15,6 +15,7 @@
 
   /* Figmaで直接使われている色 */
   --chip-border: #aeaeae;
+  --sub-text: #666666; /* Figma：bookimage/gray/sub-txt */
 
   /* 影（#24183A をもとに、透明度はFigmaの値） */
   --shadow-raised: 3px 3px 2px 0 rgba(36, 24, 58, 0.2);
@@ -78,7 +79,7 @@ ul {
   position: relative;
   max-width: 1200px;
   /* 上の余白：40px。ホーム画面から全画面で開いたときは、時計などのエリア（セーフエリア）の高さを足す */
-  margin: calc(40px + env(safe-area-inset-top, 0px)) 16px 56px;
+  margin: calc(40px + env(safe-area-inset-top, 0px)) 16px 32px; /* 下：フッターまで32px */
 }
 
 @media (min-width: 1232px) {
@@ -576,6 +577,54 @@ ul {
   background: var(--primary-50);
   color: var(--text-primary);
   font-weight: 500;
+}
+
+/* 小さめのボタン（フッターの「情報提供する」） */
+.btn--compact {
+  display: inline-flex;
+  width: auto;
+  min-width: 0;
+  padding: 8px;
+}
+
+/* ---------- フッター ---------- */
+.site-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  max-width: 1200px;
+  margin: 0 24px;
+  padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px));
+  color: var(--sub-text);
+  text-align: center;
+}
+
+.site-footer__text {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 17px;
+}
+
+/* 「〜ものを」と「見つけたら〜」を、それぞれまとまりのまま折り返す（狭い画面でも途中で切れにくい） */
+.site-footer__text span {
+  display: inline-block;
+  word-break: auto-phrase;
+}
+
+.site-footer__note {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 12px;
+}
+
+@media (min-width: 1248px) {
+  .site-footer {
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 /* ---------- コピーしました ---------- */
