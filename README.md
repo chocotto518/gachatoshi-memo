@@ -8,7 +8,7 @@
 - `data/products.json` … 商品データ。入力シートのCSVから `python3 tools/csv_to_json.py 書き出したファイル.csv` で作る
 - `images/title.svg` … タイトル（Figmaから書き出したもの）
 - `templates/products-template.xlsx` … 商品データの入力シート
-- 画像：**公式の商品画像は入れない**（自分で撮った写真をあとで追加する予定）
+- `images/products/` … 自分で撮った商品写真。ファイル名を商品の id にすると（例：`stand-stones-4589675717414.webp`）、変換時に自動でその商品の画像になる。**公式の商品画像は入れない**
 
 ## 手元で見るには
 `products.json` をブラウザで読み込むため、`index.html` をダブルクリックで開くと表示されません。
