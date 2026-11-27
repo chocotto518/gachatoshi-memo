@@ -192,6 +192,13 @@
     return box;
   }
 
+  // 一覧カードでは、先頭の「ハイキュー!!」（‼・全角！！も）と後ろの空白を省く。
+  // 途中にある「ハイキュー!!」はそのまま。詳細ページとコピーは正式名のまま
+  function cardTitle(name) {
+    const short = name.replace(/^ハイキュー(?:!!|‼|！！)[\s　]*/, "");
+    return short || name;
+  }
+
   function renderCard(item) {
     return h(
       "li",
@@ -212,7 +219,7 @@
             "span",
             { class: "card__info" },
             h("span", { class: "badge-maker", text: item.maker }),
-            h("span", { class: "card__title", text: item.name }),
+            h("span", { class: "card__title", text: cardTitle(item.name) }),
             h(
               "span",
               { class: "card__meta" },
