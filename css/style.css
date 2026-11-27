@@ -212,6 +212,12 @@ ul {
   white-space: nowrap;
   cursor: pointer;
   /* 影なし（ボタン・カードとの区別） */
+  transition: transform 0.1s ease;
+}
+
+/* 押したとき：少し小さくなる（影がないので縮むだけ） */
+.chip:active {
+  transform: scale(var(--press-scale));
 }
 
 .chip[aria-pressed="true"] {
