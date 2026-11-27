@@ -193,15 +193,15 @@ ul {
   align-items: center;
   gap: 16px;
   margin: 32px auto 0;
-  max-width: 284px; /* Figmaの並び（3つ＋2つ）に合わせる。PCでの調整はあとで */
+  max-width: 308px; /* Figmaの並び（1行に3つ）に合わせる。PCでの調整はあとで */
 }
 
 .chip {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 32px;
-  padding: 8px; /* Figma：上下左右8px */
+  min-height: 40px;
+  padding: 12px; /* Figma：上下左右12px */
   border: 1px solid var(--chip-border);
   border-radius: 50px;
   background: #fff;
