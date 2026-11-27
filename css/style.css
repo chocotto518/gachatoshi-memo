@@ -200,8 +200,8 @@ ul {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 24px;
-  padding: 4px 8px;
+  min-height: 32px;
+  padding: 8px; /* Figma：上下左右8px */
   border: 1px solid var(--chip-border);
   border-radius: 50px;
   background: #fff;
