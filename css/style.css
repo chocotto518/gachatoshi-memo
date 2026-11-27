@@ -20,6 +20,8 @@
   --shadow-raised: 3px 3px 2px 0 rgba(36, 24, 58, 0.2);
   --shadow-button: 3px 3px 1px 0 rgba(36, 24, 58, 0.2);
   --press-scale: 0.97; /* 押したときの縮み具合（カード・ボタン共通） */
+  --press-in: 0.04s;   /* 押したときに縮む速さ（素早く） */
+  --press-out: 0.12s;  /* 離したときに戻る速さ（ゆっくり） */
 
   /* リングノート */
   --hole-size: 29px;
@@ -212,6 +214,14 @@ ul {
   white-space: nowrap;
   cursor: pointer;
   /* 影なし（ボタン・カードとの区別） */
+  transition: transform var(--press-out) ease;
+}
+
+/* 押したとき：少し小さくなる（影がないので縮むだけ） */
+.chip:active,
+.chip.is-pressed {
+  transform: scale(var(--press-scale));
+  transition-duration: var(--press-in);
 }
 
 .chip[aria-pressed="true"] {
@@ -258,7 +268,7 @@ ul {
   background: none;
   text-align: left;
   cursor: pointer;
-  transition: transform 0.1s ease;
+  transition: transform var(--press-out) ease;
 }
 
 .card__body {
@@ -272,7 +282,7 @@ ul {
   background: #fff;
   box-shadow: var(--shadow-raised);
   overflow: hidden;
-  transition: box-shadow 0.1s ease;
+  transition: box-shadow var(--press-out) ease;
 }
 
 /* Card/Item/Ornament：意味のない装飾。両端がギザギザのテープ（Figmaの Subtract） */
@@ -287,12 +297,16 @@ ul {
 }
 
 /* 押したとき：少し小さくなって、影が消える */
-.card:active {
+.card:active,
+.card.is-pressed {
   transform: scale(var(--press-scale));
+  transition-duration: var(--press-in);
 }
 
-.card:active .card__body {
+.card:active .card__body,
+.card.is-pressed .card__body {
   box-shadow: none;
+  transition-duration: var(--press-in);
 }
 
 .card:focus-visible {
@@ -530,7 +544,7 @@ ul {
   line-height: 16px;
   text-decoration: none;
   box-shadow: var(--shadow-button);
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  transition: transform var(--press-out) ease, box-shadow var(--press-out) ease;
 }
 
 .btn img {
@@ -540,9 +554,11 @@ ul {
 }
 
 /* 押したとき：少し小さくなって、影が消える */
-.btn:active {
+.btn:active,
+.btn.is-pressed {
   transform: scale(var(--press-scale));
   box-shadow: none;
+  transition-duration: var(--press-in);
 }
 
 .btn:focus-visible {

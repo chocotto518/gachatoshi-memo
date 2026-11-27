@@ -45,8 +45,38 @@
 
   if ("scrollRestoration" in history) history.scrollRestoration = "manual";
 
-  // iPhoneのSafariは、タッチの処理が1つもないと「押したときの見た目（:active）」を出さないため、空の処理を登録しておく
-  document.addEventListener("touchstart", () => {}, { passive: true });
+  /* ---------- 押したときの見た目 ----------
+     ブラウザの :active は、スクロールかタップかを見分ける間は付かないので、すばやいタップだと見えないことがある。
+     そこで、指が触れた瞬間に .is-pressed を付け、離したあとも最低 PRESS_MIN_MS は残す。
+     スクロールが始まったとき（pointercancel）は、すぐ外す。 */
+  const PRESSABLE = ".card, .btn, .chip";
+  const PRESS_MIN_MS = 100;
+  let pressed = null;
+  let pressedAt = 0;
+
+  function release(immediate) {
+    const el = pressed;
+    if (!el) return;
+    pressed = null;
+    const wait = immediate ? 0 : Math.max(0, PRESS_MIN_MS - (performance.now() - pressedAt));
+    setTimeout(() => el.classList.remove("is-pressed"), wait);
+  }
+
+  document.addEventListener(
+    "pointerdown",
+    (e) => {
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      const el = e.target.closest(PRESSABLE);
+      if (!el) return;
+      release(true);
+      pressed = el;
+      pressedAt = performance.now();
+      el.classList.add("is-pressed");
+    },
+    { passive: true }
+  );
+  document.addEventListener("pointerup", () => release(false), { passive: true });
+  document.addEventListener("pointercancel", () => release(true), { passive: true });
 
   /* ---------- 小さな道具 ---------- */
 
@@ -149,6 +179,16 @@
 
   function renderChips() {
     const all = state.selected.size === 0;
+
+    // 2回目以降は作り直さず、選択状態だけ切り替える（押したあとに元の大きさへ戻る動きが見えるように）
+    if (els.chips.children.length === state.categories.length + 1) {
+      [...els.chips.children].forEach((btn, i) => {
+        const on = i === 0 ? all : state.selected.has(state.categories[i - 1]);
+        btn.setAttribute("aria-pressed", String(on));
+      });
+      return;
+    }
+
     const chip = (label, pressed, onclick) =>
       h("button", { type: "button", class: "chip", "aria-pressed": String(pressed), onclick, text: label });
 
@@ -166,6 +206,7 @@
       )
     );
   }
+
 
   function onFilterChange() {
     try {
