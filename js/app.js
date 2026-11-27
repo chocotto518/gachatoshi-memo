@@ -33,6 +33,7 @@
     count: $("count"),
     cardList: $("card-list"),
     toast: $("toast"),
+    footer: $("site-footer"),
   };
 
   const state = {
@@ -444,11 +445,13 @@
       renderDetail(item);
       els.listView.hidden = true;
       els.detailView.hidden = false;
+      els.footer.hidden = true; // フッターは一覧ページだけ
       document.title = item ? `${item.name}｜ガチャとし MEMO` : "ガチャとし MEMO";
       window.scrollTo(0, 0);
     } else {
       els.detailView.hidden = true;
       els.listView.hidden = false;
+      els.footer.hidden = false;
       document.title = "ガチャとし MEMO";
       fitTitles();
       // 絞り込みはそのまま。スクロール位置を戻す
