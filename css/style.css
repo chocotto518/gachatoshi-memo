@@ -19,7 +19,7 @@
   /* 影（#24183A をもとに、透明度はFigmaの値） */
   --shadow-raised: 3px 3px 2px 0 rgba(36, 24, 58, 0.2);
   --shadow-button: 3px 3px 1px 0 rgba(36, 24, 58, 0.2);
-  --shadow-pressed: 1px 1px 1px 0 rgba(36, 24, 58, 0.2);
+  --press-scale: 0.97; /* 押したときの縮み具合（カード・ボタン共通） */
 
   /* リングノート */
   --hole-size: 29px;
@@ -258,6 +258,7 @@ ul {
   background: none;
   text-align: left;
   cursor: pointer;
+  transition: transform 0.1s ease;
 }
 
 .card__body {
@@ -271,7 +272,7 @@ ul {
   background: #fff;
   box-shadow: var(--shadow-raised);
   overflow: hidden;
-  transition: transform 0.08s ease, box-shadow 0.08s ease;
+  transition: box-shadow 0.1s ease;
 }
 
 /* Card/Item/Ornament：意味のない装飾。両端がギザギザのテープ（Figmaの Subtract） */
@@ -283,16 +284,15 @@ ul {
   height: 16px;
   background: url("../images/card-ornament.svg") center / 96px 16px no-repeat;
   transform: translateX(-50%);
-  transition: transform 0.08s ease;
+}
+
+/* 押したとき：少し小さくなって、影が消える */
+.card:active {
+  transform: scale(var(--press-scale));
 }
 
 .card:active .card__body {
-  transform: translate(2px, 2px);
-  box-shadow: var(--shadow-pressed);
-}
-
-.card:active .card__ornament {
-  transform: translate(calc(-50% + 2px), 2px);
+  box-shadow: none;
 }
 
 .card:focus-visible {
@@ -530,7 +530,7 @@ ul {
   line-height: 16px;
   text-decoration: none;
   box-shadow: var(--shadow-button);
-  transition: transform 0.08s ease, box-shadow 0.08s ease;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 .btn img {
@@ -539,9 +539,10 @@ ul {
   flex: 0 0 auto;
 }
 
+/* 押したとき：少し小さくなって、影が消える */
 .btn:active {
-  transform: translate(2px, 2px);
-  box-shadow: var(--shadow-pressed);
+  transform: scale(var(--press-scale));
+  box-shadow: none;
 }
 
 .btn:focus-visible {

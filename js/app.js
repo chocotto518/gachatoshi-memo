@@ -45,6 +45,9 @@
 
   if ("scrollRestoration" in history) history.scrollRestoration = "manual";
 
+  // iPhoneのSafariは、タッチの処理が1つもないと「押したときの見た目（:active）」を出さないため、空の処理を登録しておく
+  document.addEventListener("touchstart", () => {}, { passive: true });
+
   /* ---------- 小さな道具 ---------- */
 
   // DOMを組み立てる（文字はtextContentで入れるので、データにタグが入っても安全）
