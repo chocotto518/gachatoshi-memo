@@ -27,7 +27,8 @@
   --ring-width: 16px;
   --ring-height: 53px;
 
-  --font: "Zen Kaku Gothic Antique", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", sans-serif;
+  /* 先頭のNunitoは数字（0〜9）しか持っていないので、数字だけNunito・それ以外はZen Kaku Gothic Antiqueになる */
+  --font: "Nunito", "Zen Kaku Gothic Antique", "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", sans-serif;
 }
 
 *,
