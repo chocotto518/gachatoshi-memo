@@ -20,6 +20,7 @@
   /* 影（#24183A をもとに、透明度はFigmaの値） */
   --shadow-raised: 3px 3px 2px 0 rgba(36, 24, 58, 0.2);
   --shadow-button: 3px 3px 1px 0 rgba(36, 24, 58, 0.2);
+  --sheet-max: 480px; /* PCなど広い画面でのノートの最大幅 */
   --press-scale: 0.97; /* 押したときの縮み具合（カード・ボタン共通） */
   --press-in: 0.04s;   /* 押したときに縮む速さ（素早く） */
   --press-out: 0.12s;  /* 離したときに戻る速さ（ゆっくり） */
@@ -75,19 +76,15 @@ ul {
 }
 
 /* ---------- ノート ---------- */
+/* ノートの幅：スマホは画面幅から左右16pxずつ引いた幅。PCなど広い画面では最大480pxで止めて中央に置く */
 .sheet {
   position: relative;
-  max-width: 1200px;
+  width: calc(100% - 32px);
+  max-width: var(--sheet-max);
   /* 上の余白：40px。ホーム画面から全画面で開いたときは、時計などのエリア（セーフエリア）の高さを足す */
-  margin: calc(40px + env(safe-area-inset-top, 0px)) 16px 32px; /* 下：フッターまで32px */
+  margin: calc(40px + env(safe-area-inset-top, 0px)) auto 32px; /* 下：フッターまで32px */
 }
 
-@media (min-width: 1232px) {
-  .sheet {
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
 
 /* ノートの形に沿った影。くり抜いた穴の中にも影が落ちる */
 .notebook-shadow {
@@ -597,8 +594,9 @@ ul {
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  max-width: 1200px;
-  margin: 0 24px;
+  width: calc(100% - 48px);
+  max-width: calc(var(--sheet-max) - 16px); /* ノートより左右8pxずつ内側 */
+  margin: 0 auto;
   padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px));
   color: var(--sub-text);
   text-align: center;
@@ -619,12 +617,6 @@ ul {
   line-height: 12px;
 }
 
-@media (min-width: 1248px) {
-  .site-footer {
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
 
 /* ---------- コピーしました ---------- */
 .toast {
