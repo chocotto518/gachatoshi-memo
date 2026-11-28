@@ -137,7 +137,8 @@ ul {
   border-radius: 50%;
   /* 穴の中に落ちるノートの影を、背景色を半分重ねてやわらげる（ノートの外側の影はFigmaの値のまま） */
   background: rgba(242, 231, 255, 0.5);
-  box-shadow: inset 0 3px 3px rgba(36, 24, 58, 0.18);
+  /* 光は左上から：へこんだ穴は、内側の左上に影が入る */
+  box-shadow: inset 2px 3px 3px rgba(36, 24, 58, 0.18);
 }
 
 .binding__ring {
@@ -147,6 +148,9 @@ ul {
   height: var(--ring-height);
   border-radius: calc(var(--ring-width) / 2);
   background: var(--primary-400);
+  /* インナーシャドウ（Figma：ぼかし2・#D6B1FE を乗算。乗算後の色を計算して指定）。
+     光は左上から：出っ張ったリングは、内側の右下が暗くなる */
+  box-shadow: inset -2px -2px 2px rgb(180, 124, 254);
 }
 
 /* ---------- タイトル・注意書き ---------- */
