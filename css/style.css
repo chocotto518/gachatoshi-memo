@@ -339,10 +339,10 @@ ul {
   object-fit: cover;
 }
 
-/* 画像がないとき：カプセルのイラスト（もらった画像） */
+/* 画像がないとき：カプセルのイラスト（Figmaから書き出したSVG） */
 .thumb--empty,
 .detail-image--empty {
-  background: #faf5ff url("../images/placeholder.png") center / cover no-repeat;
+  background: #faf5ff url("../images/placeholder.svg") center / cover no-repeat;
 }
 
 .card__info {
