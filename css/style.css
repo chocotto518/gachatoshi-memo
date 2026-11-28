@@ -147,6 +147,8 @@ ul {
   height: var(--ring-height);
   border-radius: calc(var(--ring-width) / 2);
   background: var(--primary-400);
+  /* Figma：インナーシャドウ（x -2・ぼかし2・#D6B1FE を乗算）。乗算後の色を計算して指定 */
+  box-shadow: inset -2px 0 2px rgb(180, 124, 254);
 }
 
 /* ---------- タイトル・注意書き ---------- */
