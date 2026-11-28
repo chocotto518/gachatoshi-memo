@@ -339,10 +339,10 @@ ul {
   object-fit: cover;
 }
 
-/* 画像がないとき：グレーの市松模様（Figmaの画像） */
+/* 画像がないとき：カプセルのイラスト（もらった画像） */
 .thumb--empty,
 .detail-image--empty {
-  background: #fff url("../images/placeholder.png") center / cover no-repeat;
+  background: #faf5ff url("../images/placeholder.png") center / cover no-repeat;
 }
 
 .card__info {
