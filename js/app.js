@@ -244,6 +244,10 @@
     return short || name;
   }
 
+  // テープの柄：開くたび・絞り込むたびにランダム（Figma：masking の check / stripe / dot / nomal）
+  const TAPES = ["check", "stripe", "dot", "normal"];
+  const randomTape = () => TAPES[Math.floor(Math.random() * TAPES.length)];
+
   function renderCard(item) {
     return h(
       "li",
@@ -255,7 +259,7 @@
           class: "card",
           onclick: () => openDetail(item.id),
         },
-        h("span", { class: "card__ornament", "aria-hidden": "true" }),
+        h("span", { class: "card__ornament", "data-tape": randomTape(), "aria-hidden": "true" }),
         h(
           "span",
           { class: "card__body" },

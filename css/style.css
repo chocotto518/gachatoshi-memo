@@ -287,16 +287,21 @@ ul {
   transition: box-shadow var(--press-out) ease;
 }
 
-/* Card/Item/Ornament：意味のない装飾。両端がギザギザのテープ（Figmaの Subtract） */
+/* Card/Item/Ornament：意味のない装飾。両端がギザギザのテープ（Figma：masking の4種類） */
 .card__ornament {
   position: absolute;
   top: -1px;
   left: calc(50% + 0.5px);
   width: 96px;
   height: 16px;
-  background: url("../images/card-ornament.svg") center / 96px 16px no-repeat;
+  background: url("../images/tape/normal.svg") left center / auto 16px no-repeat;
   transform: translateX(-50%);
 }
+
+/* テープの柄（Figma：masking）。どれを使うかはJSで毎回ランダムに決める */
+.card__ornament[data-tape="check"] { background-image: url("../images/tape/check.svg"); }
+.card__ornament[data-tape="stripe"] { background-image: url("../images/tape/stripe.svg"); }
+.card__ornament[data-tape="dot"] { background-image: url("../images/tape/dot.svg"); }
 
 /* 押したとき：少し小さくなって、影が消える */
 .card:active,
